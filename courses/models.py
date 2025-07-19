@@ -3,9 +3,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class InstructorProfile(models.Model):
@@ -29,9 +27,7 @@ class InstructorProfile(models.Model):
         return f"Profile of {self.user.username}"
 
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class Category(models.Model):
@@ -41,9 +37,7 @@ class Category(models.Model):
         return self.name
     
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class Course(models.Model):
@@ -85,9 +79,7 @@ class Course(models.Model):
         return self.title
 
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class Lesson(models.Model):
@@ -135,9 +127,7 @@ class Lesson(models.Model):
         return f"{self.course.title} - {self.title}"
 
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class Enrollment(models.Model):
@@ -160,11 +150,9 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} enrolled in {self.course.title}"
-    
 
 
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class Order(models.Model):
@@ -203,9 +191,7 @@ class Order(models.Model):
         return f"Order {self.id} by {self.user.username}"
 
 
-
-
-
+#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
 
 
 class OrderItem(models.Model):
