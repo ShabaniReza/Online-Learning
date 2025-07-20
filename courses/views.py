@@ -9,7 +9,7 @@ from .pagination import DefaultPagination
 from .filters import CourseFilter
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
 
 
 class CourseViewSet(ModelViewSet):
@@ -26,7 +26,7 @@ class CourseViewSet(ModelViewSet):
         return [IsAdminUser()]
     
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــLessonــــــــــــــــــــــــــــــــ
 
 
 class LessonViewSet(ModelViewSet):
@@ -44,17 +44,21 @@ class LessonViewSet(ModelViewSet):
         course = Course.objects.get(pk=course_pk)
         Lessons = Lesson.objects.filter(course=course)
 
+        # * Staff and superuser can access to lessons
         if user.is_staff or user.is_superuser:
             return Lessons
         
+        # * The instructor of this course can access to lessons
         if user.role == user.INSTRUCTOR and \
            hasattr(user, 'instructor_profile') and \
            course.instructor == user.instructor_profile:
             return Lessons
-
+        
+        # * Student enrolled in this course can access to lessons
         if Enrollment.objects.filter(student=user, course=course, is_completed=False).exists():
             return Lessons
         
+        # * Other user cannot access to lessons
         raise PermissionDenied("You are not authorized to view lessons for this course.")
 
 
@@ -63,3 +67,6 @@ class LessonViewSet(ModelViewSet):
         if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAdminUser()]
+    
+
+

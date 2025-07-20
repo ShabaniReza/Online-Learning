@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
 
 
 class InstructorProfile(models.Model):
@@ -27,7 +27,7 @@ class InstructorProfile(models.Model):
         return f"Profile of {self.user.username}"
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــCategoryــــــــــــــــــــــــــــــــ
 
 
 class Category(models.Model):
@@ -37,7 +37,7 @@ class Category(models.Model):
         return self.name
     
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
 
 
 class Course(models.Model):
@@ -79,7 +79,7 @@ class Course(models.Model):
         return self.title
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــLessonــــــــــــــــــــــــــــــــ
 
 
 class Lesson(models.Model):
@@ -127,7 +127,7 @@ class Lesson(models.Model):
         return f"{self.course.title} - {self.title}"
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــEnrollmentــــــــــــــــــــــــــــــــ
 
 
 class Enrollment(models.Model):
@@ -152,7 +152,7 @@ class Enrollment(models.Model):
         return f"{self.student.username} enrolled in {self.course.title}"
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــOrderــــــــــــــــــــــــــــــــ
 
 
 class Order(models.Model):
@@ -191,7 +191,7 @@ class Order(models.Model):
         return f"Order {self.id} by {self.user.username}"
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــOrderItemــــــــــــــــــــــــــــــــ
 
 
 class OrderItem(models.Model):

@@ -5,6 +5,6 @@ class CourseFilter(FilterSet):
     class Meta:
         model = Course
         fields = {
-            'categories_id': ['exact'],
+            'categories__id': ['exact'],
             'price': ['gt', 'lt'],
         }

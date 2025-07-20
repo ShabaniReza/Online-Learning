@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer, StringRelatedField
 from .models import Course, Lesson
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
 
 
 class CourseSerializer(ModelSerializer):
@@ -11,7 +11,7 @@ class CourseSerializer(ModelSerializer):
         fields = ['title', 'descriptions', 'categories', 'created_at', 'instructor', 'price', 'cover_image']
 
 
-#!ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــLessonــــــــــــــــــــــــــــــــ
 
 
 class LessonSerializer(ModelSerializer):
