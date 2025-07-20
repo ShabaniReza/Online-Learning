@@ -41,22 +41,20 @@ class LessonViewSet(ModelViewSet):
         course_pk = self.kwargs['course_pk']
         course = Course.objects.get(pk=course_pk)
         Lessons = Lesson.objects.filter(course=course)
-        Free_lessons = Lesson.objects.filter(is_previewable=True)
+        Free_lessons = Lesson.objects.filter(course=course, is_previewable=True)
 
-        # * Staff and superuser can access to lessons
-        if user.is_staff or user.is_superuser:
-            return Lessons
-        
-        # * The instructor of this course can access to lessons
-        elif user.role == user.INSTRUCTOR and \
+        # * First two lines check if user is staff/superuser
+        # * Third line check if user enrolled in this course
+        # * Other lines check if user is instructor of course
+        if user.is_staff or \
+           user.is_superuser or \
+           Enrollment.objects.filter(student=user, course=course, is_completed=False).exists() or \
+           user.role == user.INSTRUCTOR and \
            hasattr(user, 'instructor_profile') and \
            course.instructor == user.instructor_profile:
             return Lessons
         
-        # * Student enrolled in this course can access to lessons
-        elif Enrollment.objects.filter(student=user, course=course, is_completed=False).exists():
-            return Lessons
-        
+        # * Only shows lessons that is previewable 
         else:
             return Free_lessons
 
@@ -66,15 +64,13 @@ class LessonViewSet(ModelViewSet):
         course_pk = self.kwargs['course_pk']
         course = Course.objects.get(pk=course_pk)
 
-        if user.is_staff or user.is_superuser:
-            return LessonSerializer
-        
-        elif user.role == user.INSTRUCTOR and \
+        if user.is_staff or \
+           user.is_superuser or \
+           Enrollment.objects.filter(student=user, course=course, is_completed=False).exists() or \
+           Lesson.is_previewable==True or \
+           user.role == user.INSTRUCTOR and \
            hasattr(user, 'instructor_profile') and \
            course.instructor == user.instructor_profile:
-            return LessonSerializer
-        
-        elif Enrollment.objects.filter(student=user, course=course, is_completed=False).exists():
             return LessonSerializer
 
         else:
