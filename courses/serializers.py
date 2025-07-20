@@ -14,6 +14,15 @@ class CourseSerializer(ModelSerializer):
 #!ــــــــــــــــــــــــــــــــLessonــــــــــــــــــــــــــــــــ
 
 
+class SimpleLessonSerializer(ModelSerializer):
+    course = StringRelatedField()
+
+    class Meta:
+        model = Lesson
+        fields = ['title', 'description', 'order', 'is_previewable', 'created_at', 'updated_at', 'course']
+    
+
+
 class LessonSerializer(ModelSerializer):
     course = StringRelatedField()
 
