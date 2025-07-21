@@ -1,9 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAdminUser, AllowAny
 from .models import Course, Lesson, Enrollment, InstructorProfile
-from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer
+from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, SimpleInstructorSerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter
 from .permissions import OnlyAdminAndInstructor
@@ -88,9 +91,22 @@ class LessonViewSet(ModelViewSet):
 
 class InstructorViewSet(ModelViewSet):
     queryset = InstructorProfile.objects.all()
-    serializer_class = InstructorProfile
+    serializer_class = InstructorSerializer
     
     def get_permissions(self):
         if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAdminUser()]
+    
+
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[OnlyAdminAndInstructor])
+    def me(self, request):
+        instructor = InstructorProfile.objects.get(user__id=self.request.user.id)
+        if request.method == 'GET':
+            serializer = InstructorSerializer(instructor)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = SimpleInstructorSerializer(instructor, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
