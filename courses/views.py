@@ -2,8 +2,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAdminUser, AllowAny
-from .models import Course, Lesson, Enrollment
-from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer
+from .models import Course, Lesson, Enrollment, InstructorProfile
+from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter
 
@@ -82,4 +82,9 @@ class LessonViewSet(ModelViewSet):
         return [IsAdminUser()]
     
 
+#!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
 
+
+class InstructorViewSet(ModelViewSet):
+    queryset = InstructorProfile.objects.all()
+    serializer_class = InstructorProfile
