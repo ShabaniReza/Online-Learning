@@ -6,6 +6,7 @@ from .models import Course, Lesson, Enrollment, InstructorProfile
 from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter
+from .permissions import OnlyAdminAndInstructor
 
 
 #!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
@@ -88,3 +89,8 @@ class LessonViewSet(ModelViewSet):
 class InstructorViewSet(ModelViewSet):
     queryset = InstructorProfile.objects.all()
     serializer_class = InstructorProfile
+    
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAdminUser()]
