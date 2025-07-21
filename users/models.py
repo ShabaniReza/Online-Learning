@@ -15,3 +15,6 @@ class User(AbstractUser):
         default=STUDENT
     )
     email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.username

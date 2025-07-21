@@ -99,7 +99,7 @@ class InstructorViewSet(ModelViewSet):
         return [IsAdminUser()]
     
 
-    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[OnlyAdminAndInstructor])
+    @action(detail=False, methods=['GET', 'PUT', 'DELETE'], permission_classes=[OnlyAdminAndInstructor])
     def me(self, request):
         instructor = InstructorProfile.objects.get(user__id=self.request.user.id)
         if request.method == 'GET':

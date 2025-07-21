@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, StringRelatedField, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, StringRelatedField
 from .models import Course, Lesson, InstructorProfile
 
 
@@ -35,23 +35,17 @@ class LessonSerializer(ModelSerializer):
 
 
 class InstructorSerializer(ModelSerializer):
-    username = SerializerMethodField(read_only=True)
+    username = StringRelatedField(read_only=True)
 
     class Meta:
         model = InstructorProfile
         fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating']
 
-    def get_username(self, obj):
-        return obj.user.username
-
 
 
 class SimpleInstructorSerializer(ModelSerializer):
-    username = SerializerMethodField()
+    username = StringRelatedField()
 
     class Meta:
         model = InstructorProfile
         fields = ['first_name', 'last_name', 'username']
-
-        def get_username(self, obj):
-            return obj.user.username
