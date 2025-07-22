@@ -112,7 +112,7 @@ class InstructorViewSet(ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 
-#!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
+#!ــــــــــــــــــــــــــــــــStudentــــــــــــــــــــــــــــــــ
 
 
 class StudentViewSet(ModelViewSet):
