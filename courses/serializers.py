@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, StringRelatedField
-from .models import Course, Lesson, InstructorProfile
+from .models import Course, Lesson, InstructorProfile, Student
 
 
 #!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
@@ -48,12 +48,12 @@ class InstructorCourseSerializer(ModelSerializer):
         fields = ['title', 'description', 'categories', 'lessons']
 
 class InstructorSerializer(ModelSerializer):
-    username = StringRelatedField()
+    user = StringRelatedField()
     courses = InstructorCourseSerializer()
 
     class Meta:
         model = InstructorProfile
-        fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating', 'courses']
+        fields = ['first_name', 'last_name', 'user', 'expertise', 'experience_year', 'rating', 'courses']
 
 # @ ___________________For GET method in 'me' action of InstructorViewSet___________________
 
@@ -69,18 +69,18 @@ class IPCourseSerializer(ModelSerializer):
         fields = ['title', 'description', 'categories', 'created_at', 'price', 'status', 'cover_image', 'lessons']
 
 class InstructorProfileSerializer(ModelSerializer):
-    username = StringRelatedField(read_only=True)
+    user = StringRelatedField(read_only=True)
     courses = IPCourseSerializer(read_only=True)
 
     class Meta:
         model = InstructorProfile
-        fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating', 'courses']
+        fields = ['first_name', 'last_name', 'user', 'expertise', 'experience_year', 'rating', 'courses']
 
 # @ ___________________For PUT method in 'me' action of InstructorViewSet___________________
 
 class UpdateInstructorProfileSerializer(ModelSerializer):
-    username = StringRelatedField()
+    user = StringRelatedField()
 
     class Meta:
         model = InstructorProfile
-        fields = ['first_name', 'last_name', 'username']
+        fields = ['first_name', 'last_name', 'user']
