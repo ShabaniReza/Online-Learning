@@ -30,6 +30,19 @@ class InstructorProfile(models.Model):
 #!ــــــــــــــــــــــــــــــــCategoryــــــــــــــــــــــــــــــــ
 
 
+class Student(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='student',
+    )
+
+
+#!ــــــــــــــــــــــــــــــــCategoryــــــــــــــــــــــــــــــــ
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
