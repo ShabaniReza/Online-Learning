@@ -84,3 +84,14 @@ class UpdateInstructorProfileSerializer(ModelSerializer):
     class Meta:
         model = InstructorProfile
         fields = ['first_name', 'last_name', 'user']
+
+
+#!ــــــــــــــــــــــــــــــــStudentــــــــــــــــــــــــــــــــ
+
+
+class StudentSerializer(ModelSerializer):
+    user = StringRelatedField()
+    
+    class Meta:
+        model = Student
+        fields = ['first_name', 'last_name', 'user']

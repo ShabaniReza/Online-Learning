@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
-from rest_framework.permissions import IsAdminUser, AllowAny
-from .models import Course, Lesson, Enrollment, InstructorProfile
-from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer
+from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
+from .models import Course, Lesson, Enrollment, InstructorProfile, Student
+from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer, StudentSerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter
 from .permissions import OnlyAdminAndInstructor
@@ -107,6 +107,26 @@ class InstructorViewSet(ModelViewSet):
             return Response(serializer.data)
         elif request.method == 'PUT':
             serializer = UpdateInstructorProfileSerializer(instructor, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+
+#!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
+
+
+class StudentViewSet(ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    permission_classes = [IsAdminUser]
+
+    @action(detail=False, methods=['GET', 'PUT', 'DELETE'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        student = Student.objects.get(user__id=self.request.user.id)
+        if request.method == 'GET':
+            serializer = StudentSerializer(student)
+        elif request.method == 'POST':
+            serializer = StudentSerializer(student, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
