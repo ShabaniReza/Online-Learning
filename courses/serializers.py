@@ -34,16 +34,51 @@ class LessonSerializer(ModelSerializer):
 #!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
 
 
+# @ ___________________For serializer_class of InstructorViewSet___________________
+
+class InstructorLessonSerializer(ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ['title']
+
+class InstructorCourseSerializer(ModelSerializer):
+    lessons = InstructorLessonSerializer()
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'categories', 'lessons']
+
 class InstructorSerializer(ModelSerializer):
-    username = StringRelatedField(read_only=True)
+    username = StringRelatedField()
+    courses = InstructorCourseSerializer()
 
     class Meta:
         model = InstructorProfile
-        fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating']
+        fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating', 'courses']
 
+# @ ___________________For GET method in 'me' action of InstructorViewSet___________________
 
+class IPLessonSerializer(ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ['title', 'description', 'content', 'order', 'created_at', 'updated_at', 'lesson_type', 'video_url']
 
-class SimpleInstructorSerializer(ModelSerializer):
+class IPCourseSerializer(ModelSerializer):
+    lessons = IPLessonSerializer(read_only=True)
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'categories', 'created_at', 'price', 'status', 'cover_image', 'lessons']
+
+class InstructorProfileSerializer(ModelSerializer):
+    username = StringRelatedField(read_only=True)
+    courses = IPCourseSerializer(read_only=True)
+
+    class Meta:
+        model = InstructorProfile
+        fields = ['first_name', 'last_name', 'username', 'expertise', 'experience_year', 'rating', 'courses']
+
+# @ ___________________For PUT method in 'me' action of InstructorViewSet___________________
+
+class UpdateInstructorProfileSerializer(ModelSerializer):
     username = StringRelatedField()
 
     class Meta:

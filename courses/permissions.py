@@ -7,6 +7,6 @@ class OnlyAdminAndInstructor(BasePermission):
             return True
         elif user and \
             user.role == user.INSTRUCTOR and \
-            hasattr(request.user, 'instructor_profile'):
+            hasattr(user, 'instructor_profile'):
             return True
         return False

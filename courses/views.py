@@ -6,7 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAdminUser, AllowAny
 from .models import Course, Lesson, Enrollment, InstructorProfile
-from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, SimpleInstructorSerializer
+from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter
 from .permissions import OnlyAdminAndInstructor
@@ -103,10 +103,10 @@ class InstructorViewSet(ModelViewSet):
     def me(self, request):
         instructor = InstructorProfile.objects.get(user__id=self.request.user.id)
         if request.method == 'GET':
-            serializer = InstructorSerializer(instructor)
+            serializer = InstructorProfileSerializer(instructor)
             return Response(serializer.data)
         elif request.method == 'PUT':
-            serializer = SimpleInstructorSerializer(instructor, data=request.data)
+            serializer = UpdateInstructorProfileSerializer(instructor, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
