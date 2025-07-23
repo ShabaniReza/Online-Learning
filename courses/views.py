@@ -125,6 +125,8 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     permission_classes = [IsAdminUser]
     pagination_class = DefaultPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['first_name', 'last_name', 'user__username', 'user__email']
 
     @action(detail=False, methods=['GET', 'PUT', 'DELETE'], permission_classes=[IsAuthenticated])
     def me(self, request):
