@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from .models import Course, Lesson, Enrollment, InstructorProfile, Student
 from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer, StudentSerializer
 from .pagination import DefaultPagination
-from .filters import CourseFilter
+from .filters import CourseFilter, InstructorFilter
 from .permissions import OnlyAdminAndInstructor
 
 
@@ -94,6 +94,9 @@ class InstructorViewSet(ModelViewSet):
     queryset = InstructorProfile.objects.all()
     serializer_class = InstructorSerializer
     pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_class = InstructorFilter
+    search_fields = ['first_name', 'last_name', 'expertise']
     
     def get_permissions(self):
         if self.request.method == 'GET':
