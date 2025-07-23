@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from .validators import validate_file_size
 
 
 #!ــــــــــــــــــــــــــــــــInstructorــــــــــــــــــــــــــــــــ
@@ -83,7 +84,8 @@ class Course(models.Model):
         default=DRAFT,
     )
     cover_image = models.ImageField(
-        upload_to='course_covers/',
+        upload_to='courses/',
+        validators=[validate_file_size],
         blank=True,
         null=True,
     )
