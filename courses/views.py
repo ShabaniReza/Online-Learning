@@ -37,6 +37,7 @@ class LessonViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['lesson_type']
     search_fields = ['title', 'updated_at']
+    pagination_class = DefaultPagination
 
 
     def get_queryset(self):
@@ -92,6 +93,7 @@ class LessonViewSet(ModelViewSet):
 class InstructorViewSet(ModelViewSet):
     queryset = InstructorProfile.objects.all()
     serializer_class = InstructorSerializer
+    pagination_class = DefaultPagination
     
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -119,6 +121,7 @@ class StudentViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsAdminUser]
+    pagination_class = DefaultPagination
 
     @action(detail=False, methods=['GET', 'PUT', 'DELETE'], permission_classes=[IsAuthenticated])
     def me(self, request):
