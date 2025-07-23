@@ -162,3 +162,12 @@ DJOSER = {
         'current_user': 'users.userserializers.UserSerializer',
     },
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp4dev'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+DEFAULT_FROM_EMAIL = 'from@domain.com'
+EMAIL_TITLE = 'Learn With Us'
