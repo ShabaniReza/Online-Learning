@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: # your password
+      MYSQL_DATABASE: onlinelearning
+    networks:
+      - #TODO: add your network's name
+
+  web:
+    build: .
+    ports:
+      - 8000:8000
+    networks:
+      - #TODO: add your network's name
+    command: ["/app/entrypoint.sh", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+  smtp4dev:
+    image: rnwood/smtp4dev:latest
+    container_name: smtp4dev
+    ports:
+      - '5000:80'
+      - '25:25'
+    networks:
+      - #TODO: add your network's name
+
+# TODO: you should create a network here
+# networks:
+#   your network name:    
+#     driver: bridge
