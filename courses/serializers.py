@@ -8,7 +8,7 @@ from .models import Course, Lesson, InstructorProfile, Student
 class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
-        fields = ['title', 'descriptions', 'categories', 'created_at', 'instructor', 'price', 'cover_image']
+        fields = ['title', 'description', 'categories', 'created_at', 'instructor', 'price', 'cover_image']
 
 
 #!ــــــــــــــــــــــــــــــــLessonــــــــــــــــــــــــــــــــ
@@ -55,22 +55,27 @@ class InstructorSerializer(ModelSerializer):
         model = InstructorProfile
         fields = ['first_name', 'last_name', 'user', 'expertise', 'experience_year', 'rating', 'courses']
 
+class SimpleInstructorSerializer(ModelSerializer):    
+    class Meta:
+        model = InstructorProfile
+        fields = ['user', 'first_name', 'last_name', 'expertise', 'experience_year', 'rating']
+
 # @ ___________________For GET method in 'me' action of InstructorViewSet___________________
 
-class IPLessonSerializer(ModelSerializer):
+class IpLessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['title', 'description', 'content', 'order', 'created_at', 'updated_at', 'lesson_type', 'video_url']
 
-class IPCourseSerializer(ModelSerializer):
-    lessons = IPLessonSerializer(read_only=True)
+class IpCourseSerializer(ModelSerializer):
+    lessons = IpLessonSerializer(read_only=True)
     class Meta:
         model = Course
         fields = ['title', 'description', 'categories', 'created_at', 'price', 'status', 'cover_image', 'lessons']
 
 class InstructorProfileSerializer(ModelSerializer):
     user = StringRelatedField(read_only=True)
-    courses = IPCourseSerializer(read_only=True)
+    courses = IpCourseSerializer(read_only=True)
 
     class Meta:
         model = InstructorProfile
