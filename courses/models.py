@@ -66,7 +66,7 @@ class Course(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField(verbose_name="Course Description")
-    categories = models.ManyToManyField(Category, related_name='courses')
+    categories = models.ManyToManyField(Category, related_name='course-category')
     created_at = models.DateTimeField(auto_now_add=True)
     instructor = models.ForeignKey(
         InstructorProfile,
