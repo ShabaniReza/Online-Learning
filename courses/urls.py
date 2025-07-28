@@ -3,6 +3,7 @@ from . import views
 
 
 router = routers.DefaultRouter()
+router.register('categories', views.CategoryViewSet)
 router.register('courses', views.CourseViewSet)
 router.register('instructors', views.InstructorViewSet)
 router.register('students', views.StudentViewSet)
