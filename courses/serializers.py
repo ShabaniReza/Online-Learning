@@ -1,5 +1,14 @@
 from rest_framework.serializers import ModelSerializer, StringRelatedField
-from .models import Course, Lesson, InstructorProfile, Student
+from .models import Course, Lesson, InstructorProfile, Student, Category
+
+
+#!ــــــــــــــــــــــــــــــــCategoryــــــــــــــــــــــــــــــــ
+
+
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']
 
 
 #!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ

@@ -5,12 +5,30 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
-from .models import Course, Lesson, Enrollment, InstructorProfile, Student
-from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer, StudentSerializer, SimpleInstructorSerializer
+from .models import Course, Lesson, Enrollment, InstructorProfile, Student, Category
+from .serializers import CourseSerializer, LessonSerializer, SimpleLessonSerializer, \
+    InstructorSerializer, InstructorProfileSerializer, UpdateInstructorProfileSerializer, \
+    StudentSerializer, SimpleInstructorSerializer, CategorySerializer
 from .pagination import DefaultPagination
 from .filters import CourseFilter, InstructorFilter
 from .permissions import OnlyAdminAndInstructor
 
+
+#!ــــــــــــــــــــــــــــــــCategoryــــــــــــــــــــــــــــــــ
+
+
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    pagination_class = DefaultPagination
+    filter_backends = [SearchFilter]
+    search_fields = ['name']
+    
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAdminUser()]
+    
 
 #!ــــــــــــــــــــــــــــــــCourseــــــــــــــــــــــــــــــــ
 
